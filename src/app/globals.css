@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 240 10% 4%; /* Very Dark Blue/Black */
+    --foreground: 0 0% 95%; /* Light Gray/Off-White */
+    
+    --card: 240 10% 10%; /* Dark Gray for cards */
+    --card-foreground: 0 0% 95%; /* Light text for cards */
+    
+    --popover: 240 10% 12%; 
+    --popover-foreground: 0 0% 95%;
+    
+    --primary: 330 100% 55%; /* Hot Pink */
+    --primary-foreground: 0 0% 100%; /* White for text on Hot Pink */
+    
+    --secondary: 330 60% 35%; /* Darker Pink/Purple */
+    --secondary-foreground: 0 0% 98%; 
+    
+    --muted: 240 5% 25%; 
+    --muted-foreground: 240 5% 65%; 
+    
+    --accent: 190 100% 50%; /* Vibrant Cyan */
+    --accent-foreground: 0 0% 100%; /* White text for Vibrant Cyan */
+    
+    --destructive: 0 70% 50%; /* Red */
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 240 10% 15%; 
+    --input: 240 10% 20%; 
+    --ring: 330 100% 60%; /* Lighter Hot Pink for focus rings */
+
+    --chart-1: 330 70% 60%;
+    --chart-2: 190 70% 60%; /* Vibrant Cyan variant */
+    --chart-3: 220 70% 60%; 
+    --chart-4: 40 100% 60%; 
+    --chart-5: 0 70% 60%; 
+    
+    --radius: 0.5rem;
+
+    /* Sidebar variables - adjusted to new theme */
+    --sidebar-background: 240 10% 8%; /* Slightly lighter dark for sidebar */
+    --sidebar-foreground: 0 0% 90%; 
+    --sidebar-primary: 330 100% 55%; /* Hot Pink */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 190 100% 50%; /* Vibrant Cyan */
+    --sidebar-accent-foreground: 0 0% 100%; /* White text for Vibrant Cyan */
+    --sidebar-border: 240 10% 20%;
+    --sidebar-ring: 330 100% 60%;
+  }
+
+  .dark {
+    /* Dark mode will essentially be the same as the default theme now */
+    --background: 240 10% 4%; 
+    --foreground: 0 0% 95%; 
+    
+    --card: 240 10% 10%; 
+    --card-foreground: 0 0% 95%;
+    
+    --popover: 240 10% 12%; 
+    --popover-foreground: 0 0% 95%;
+    
+    --primary: 330 100% 55%; 
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 330 60% 35%; 
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 240 5% 25%; 
+    --muted-foreground: 240 5% 65%; 
+    
+    --accent: 190 100% 50%; /* Vibrant Cyan */
+    --accent-foreground: 0 0% 100%; /* White text for Vibrant Cyan */
+    
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 240 10% 15%;
+    --input: 240 10% 20%;
+    --ring: 330 100% 60%;
+
+    --sidebar-background: 240 10% 8%; 
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 330 100% 55%; 
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 190 100% 50%; /* Vibrant Cyan */
+    --sidebar-accent-foreground: 0 0% 100%; /* White text for Vibrant Cyan */
+    --sidebar-border: 240 10% 20%;
+    --sidebar-ring: 330 100% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+    /* display: flex; Flex handled by layout now */
+    /* flex-direction: column; */
+  }
+  /* main {
+    flex-grow: 1;
+  } */ /* flex-grow handled by layout now */
+}
+
+@layer utilities {
+  /* font-playful is removed as it was deemed childish */
+
+  .font-pixel {
+    font-family: var(--font-geist-mono);
+  }
+
+  .neon-border {
+    border: 2px solid hsl(var(--primary));
+    box-shadow: 0 0 5px hsl(var(--primary) / 0.8),
+                0 0 10px hsl(var(--primary) / 0.6);
+    border-radius: var(--radius);
+    /* @apply bg-card; Removed this line to allow opacity on cards */
+  }
+
+  .text-neon-fuchsia { /* Renamed to text-hot-pink or similar if used, but for now maps to primary */
+    color: hsl(var(--primary));
+    text-shadow: 0 0 3px hsl(var(--primary) / 0.7);
+  }
+
+  .text-neon-cyan { /* Maps to accent color (Vibrant Cyan) */
+    color: hsl(var(--accent));
+     text-shadow: 0 0 3px hsl(var(--accent) / 0.7);
+  }
+}
