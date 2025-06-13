@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { ArrowLeft, ArrowRight, Target } from 'lucide-react';
 
 const ENEMY_BLUE_URL = "https://i.ibb.co/2YFdmHJ7/image.png"; 
 const ENEMY_RED_URL = "https://i.ibb.co/vvDDxWz4/image.png";   
@@ -327,24 +328,24 @@ export default function GalagaPage() {
 
 
   return (
-    <div className="space-y-8 p-4 md:p-8">
-      <h1 className="text-5xl font-pixel text-center text-primary [text-shadow:0_0_3px_theme(colors.primary),0_0_6px_theme(colors.accent/80),0_0_10px_theme(colors.accent/60)]">
+    <div className="space-y-4 p-2 sm:p-4 md:p-8">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-pixel text-center text-primary [text-shadow:0_0_3px_theme(colors.primary),0_0_6px_theme(colors.accent/80),0_0_10px_theme(colors.accent/60)]">
         GALAGA: ALIEN INVASION
       </h1>
 
       <Card className="neon-border">
-        <CardHeader className="text-center">
-          <CardTitle className="font-pixel text-3xl text-primary">Wave 1: Engage!</CardTitle>
-          <CardDescription className="font-pixel text-lg text-muted-foreground mt-2">
-            Enemies enter formation. Move: Arrow Keys, Shoot: Spacebar.
+        <CardHeader className="text-center p-3 sm:p-4 md:p-6">
+          <CardTitle className="font-pixel text-xl sm:text-2xl md:text-3xl text-primary">Wave 1: Engage!</CardTitle>
+          <CardDescription className="font-pixel text-sm sm:text-base md:text-lg text-muted-foreground mt-1 sm:mt-2">
+            Controls: Arrow Keys or On-Screen Buttons. Shoot: Spacebar or Fire Button.
           </CardDescription>
-           <p className="font-pixel text-2xl text-primary">Score: {score}</p>
+           <p className="font-pixel text-lg sm:text-xl md:text-2xl text-primary">Score: {score}</p>
         </CardHeader>
-        <CardContent className="space-y-6 flex flex-col items-center">
+        <CardContent className="space-y-4 p-2 sm:p-4 md:p-6 flex flex-col items-center">
           <div
             ref={gameAreaRef}
-            className="w-full max-w-md h-[450px] bg-black border-2 border-accent rounded-md p-0 relative overflow-hidden"
-            style={{ width: `${GAME_WIDTH}px`, height: `${GAME_HEIGHT}px` }}
+            className="w-full max-w-md h-auto aspect-[448/450] bg-black border-2 border-accent rounded-md p-0 relative overflow-hidden"
+            style={{ maxWidth: `${GAME_WIDTH}px` }} // Max width remains fixed
             tabIndex={0} 
           >
             <div style={{ position: 'absolute', left: `${player.x}px`, top: `${player.y}px`, width: `${player.width}px`, height: `${player.height}px` }}>
@@ -389,24 +390,40 @@ export default function GalagaPage() {
             
             {gameActive && allEnemiesDefeated && enemies.length > 0 && enemies.some(e => e.status !== 'pendingEnter') && ( 
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-75">
-                    <p className="font-pixel text-4xl text-accent">WAVE CLEARED!</p>
+                    <p className="font-pixel text-2xl sm:text-3xl md:text-4xl text-accent">WAVE CLEARED!</p>
                 </div>
             )}
           </div>
 
+          {/* On-Screen Controls */}
+          {gameActive && (
+            <div className="mt-4 flex justify-center items-center space-x-2 sm:space-x-4 w-full max-w-xs sm:max-w-sm">
+              <Button variant="outline" size="lg" className="font-pixel p-3" onClick={() => movePlayer('left')} aria-label="Move Left">
+                <ArrowLeft className="h-6 w-6" />
+              </Button>
+              <Button variant="destructive" size="lg" className="font-pixel p-3 text-lg" onClick={fireLaser} aria-label="Fire">
+                <Target className="h-6 w-6 mr-1 sm:mr-2" /> FIRE
+              </Button>
+              <Button variant="outline" size="lg" className="font-pixel p-3" onClick={() => movePlayer('right')} aria-label="Move Right">
+                <ArrowRight className="h-6 w-6" />
+              </Button>
+            </div>
+          )}
+
+
           {!gameActive ? (
-            <Button onClick={startGame} variant="outline" className="font-pixel border-primary text-primary hover:bg-primary hover:text-primary-foreground px-6 py-3 text-lg">
+            <Button onClick={startGame} variant="outline" className="font-pixel border-primary text-primary hover:bg-primary hover:text-primary-foreground px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-lg">
               Start Wave 1
             </Button>
           ) : allEnemiesDefeated && enemies.length > 0 && enemies.some(e => e.status !== 'pendingEnter') ? (
-             <Button onClick={startGame} variant="outline" className="font-pixel border-primary text-primary hover:bg-primary hover:text-primary-foreground px-6 py-3 text-lg">
+             <Button onClick={startGame} variant="outline" className="font-pixel border-primary text-primary hover:bg-primary hover:text-primary-foreground px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-lg">
               Play Again
             </Button>
           ) : null }
 
-          <div className="text-center mt-4">
+          <div className="text-center mt-2 sm:mt-4">
             <Link href="/arcade" passHref>
-              <Button variant="outline" className="font-pixel border-accent text-accent hover:bg-accent hover:text-accent-foreground px-6 py-3 text-lg">
+              <Button variant="outline" className="font-pixel border-accent text-accent hover:bg-accent hover:text-accent-foreground px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-lg">
                 Back to Arcade Zone
               </Button>
             </Link>
@@ -416,4 +433,3 @@ export default function GalagaPage() {
     </div>
   );
 }
-

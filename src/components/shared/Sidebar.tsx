@@ -1,4 +1,3 @@
-
 // src/components/shared/Sidebar.tsx
 'use client';
 
@@ -7,68 +6,107 @@ import { usePathname } from 'next/navigation';
 import { Gamepad2, Layers, SquareStack, MessageSquareText, Info, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import {
+  Sidebar as UISidebar,
+  SidebarHeader as UISidebarHeader,
+  SidebarContent as UISidebarContent,
+  SidebarFooter as UISidebarFooter,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  useSidebar, // Import useSidebar
+} from '@/components/ui/sidebar'; 
 
 const navItems = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/arcade', label: 'Arcade', icon: Gamepad2 },
-  { href: '/stickers', label: 'Stickers', icon: Layers },
-  { href: '/cards', label: 'Cards', icon: SquareStack },
-  { href: '/lore', label: 'Lore', icon: MessageSquareText },
-  { href: '/about', label: 'About', icon: Info },
+  { href: '/', label: 'Home', icon: Home, tooltip: 'Home' },
+  { href: '/arcade', label: 'Arcade', icon: Gamepad2, tooltip: 'Arcade Zone' },
+  { href: '/stickers', label: 'Stickers', icon: Layers, tooltip: 'Sticker Generator' },
+  { href: '/cards', label: 'Cards', icon: SquareStack, tooltip: 'Card Collection' },
+  { href: '/lore', label: 'Lore', icon: MessageSquareText, tooltip: 'White Poop Lore' },
+  { href: '/about', label: 'About', icon: Info, tooltip: 'About Us' },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { state: sidebarState } = useSidebar(); 
 
   return (
-    <aside className="w-60 bg-sidebar text-sidebar-foreground px-0 py-4 space-y-6 border-r border-sidebar-border flex flex-col">
-      <div className="text-center py-2">
+    <UISidebar collapsible="icon" side="left" variant="sidebar">
+      <UISidebarHeader className="text-center py-2 px-2"> {/* Centering and padding directly on header */}
         <Link href="/" className="inline-block">
-          {/* Explicit width for the container, calculated from sidebar width and padding */}
-          <div className="relative w-[240px] h-[60px] mx-auto">
-            <Image
-              src="https://i.ibb.co/WWdHPFfZ/a-logo-for-a-website-that-is-black-hot-pink-neon.png"
-              alt="Rewind Society Logo"
-              fill
-              priority
-              sizes="240px"
-              style={{ objectFit: 'contain' }}
-            />
-          </div>
+          {/* Logo for expanded state */}
+          {sidebarState === 'expanded' && (
+            <div className="relative w-full max-w-[200px] h-[50px] mx-auto">
+              <Image
+                src="https://i.ibb.co/WWdHPFfZ/a-logo-for-a-website-that-is-black-hot-pink-neon.png"
+                alt="Rewind Society Logo"
+                fill
+                priority
+                sizes="(max-width: 768px) 180px, 200px"
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
+          )}
+          {/* Icon/Favicon for collapsed state (desktop) */}
+          {sidebarState === 'collapsed' && (
+             <div className="relative w-8 h-8 mx-auto"> 
+              <Image
+                src="https://i.ibb.co/c8msxR9/favicon-32x32.png" 
+                alt="Rewind Society Icon"
+                fill
+                priority
+                sizes="32px"
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
+          )}
         </Link>
-      </div>
-      <nav className="flex-grow px-1"> {/* Add px-1 here for nav items if needed, or adjust li padding */}
-        <ul className="space-y-2">
+      </UISidebarHeader>
+
+      <UISidebarContent className="flex-grow p-1">
+        <SidebarMenu>
           {navItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
             return (
-              <li key={item.href}>
-                <Link href={item.href} legacyBehavior passHref>
-                  <a
-                    className={cn(
-                      "flex items-center space-x-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all group",
-                      isActive
-                        ? "bg-primary text-primary-foreground shadow-md scale-105"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:scale-105"
-                    )}
-                  >
+              <SidebarMenuItem key={item.href}>
+                <SidebarMenuButton
+                  href={item.href}
+                  asChild
+                  isActive={isActive}
+                  className={cn(
+                    "group transition-all", 
+                    isActive
+                      ? "bg-primary text-primary-foreground shadow-md hover:bg-primary/90" 
+                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" 
+                  )}
+                  tooltip={{ children: item.tooltip, side: 'right', align: 'center' }}
+                >
+                  <Link href={item.href}>
                     <item.icon
                       className={cn(
-                        "h-5 w-5",
+                        "h-5 w-5 shrink-0", 
                         isActive ? "text-primary-foreground" : "text-sidebar-primary group-hover:text-sidebar-accent-foreground"
                       )}
                     />
-                    <span>{item.label}</span>
-                  </a>
-                </Link>
-              </li>
+                    <span className={cn(sidebarState === 'collapsed' ? 'opacity-0 w-0' : 'opacity-100 w-auto', 'transition-opacity duration-200 ease-in-out overflow-hidden whitespace-nowrap')}>
+                      {item.label}
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             );
           })}
-        </ul>
-      </nav>
-      <div className="text-xs text-center text-muted-foreground pb-2 px-1"> {/* Add px-1 here for copyright */}
-        &copy; {new Date().getFullYear()} Rewind Society
-      </div>
-    </aside>
+        </SidebarMenu>
+      </UISidebarContent>
+
+      <UISidebarFooter className="p-1">
+        <div className={cn(
+          "text-xs text-center text-muted-foreground pb-2 transition-opacity duration-200 ease-in-out",
+           sidebarState === 'collapsed' ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'
+           )}>
+          &copy; {new Date().getFullYear()} Rewind Society
+        </div>
+      </UISidebarFooter>
+    </UISidebar>
   );
 }

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -77,17 +78,20 @@ export default function StickerForm() {
       </form>
 
       {stickerDataUri && (
-        <div className="mt-8 p-4 border-2 border-dashed border-accent rounded-lg text-center bg-background">
-          <h3 className="text-2xl text-primary mb-4">Your Masterpiece!</h3>
-          <Image 
-            src={stickerDataUri} 
-            alt="Generated Sticker" 
-            width={400} 
-            height={400} 
-            className="mx-auto rounded-md shadow-lg border-4 border-primary"
-            data-ai-hint="sticker parody"
-            unoptimized={true} 
-          />
+        <div className="mt-6 md:mt-8 p-4 border-2 border-dashed border-accent rounded-lg text-center bg-background">
+          <h3 className="text-xl sm:text-2xl text-primary mb-4">Your Masterpiece!</h3>
+          <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto aspect-square">
+            <Image 
+              src={stickerDataUri} 
+              alt="Generated Sticker" 
+              fill
+              style={{ objectFit: 'contain' }}
+              className="rounded-md shadow-lg border-4 border-primary"
+              data-ai-hint="sticker parody"
+              unoptimized={true} 
+              sizes="(max-width: 640px) 90vw, (max-width: 768px) 80vw, 400px"
+            />
+          </div>
           <p className="mt-2 text-sm text-muted-foreground">(Hopefully it's as gross as you imagined!)</p>
         </div>
       )}

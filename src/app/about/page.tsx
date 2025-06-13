@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
@@ -9,32 +10,34 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="space-y-8 p-4 md:p-8">
-      <h1 className="text-4xl md:text-5xl font-bold text-center text-primary">About Rewind Society</h1>
+    <div className="space-y-6 p-4 md:p-8">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-primary">About Rewind Society</h1>
 
       <Card className="neon-border">
         <CardHeader>
-          <CardTitle className="text-3xl text-primary">What is this Awesome Place?</CardTitle>
+          <CardTitle className="text-2xl sm:text-3xl text-primary">What is this Awesome Place?</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4 text-lg text-foreground">
+        <CardContent className="space-y-4 text-base sm:text-lg text-foreground">
           <p>
             Welcome, retro enthusiast, to Rewind Society! This is your digital time machine, a pixelated love letter to the raddest decade ever – the 1980s! 
             We're all about cassette tapes, high scores, neon lights, and that unmistakable 80s flair.
           </p>
-          <div className="my-6 flex justify-center">
-            <Image 
-              src="https://placehold.co/500x300.png" 
-              alt="80s montage with geometric shapes and neon" 
-              width={500} 
-              height={300} 
-              className="rounded-lg shadow-xl border-4 border-accent"
-              data-ai-hint="80s abstract neon"
-            />
+          <div className="my-4 md:my-6 flex justify-center">
+            <div className="w-full max-w-md">
+              <Image 
+                src="https://placehold.co/500x300.png" 
+                alt="80s montage with geometric shapes and neon" 
+                width={500} 
+                height={300} 
+                className="rounded-lg shadow-xl border-4 border-accent w-full h-auto"
+                data-ai-hint="80s abstract neon"
+              />
+            </div>
           </div>
           <p>
             Our totally tubular mission is to:
           </p>
-          <ul className="list-disc list-inside pl-6 space-y-2">
+          <ul className="list-disc list-inside pl-4 sm:pl-6 space-y-1 sm:space-y-2">
             <li>Celebrate the vibrant culture, iconic styles, and unforgettable music of the 1980s.</li>
             <li>Provide an online arcade to relive classic 8-bit gaming glories.</li>
             <li>Let you generate your own gnarly, 80s-themed parody stickers.</li>

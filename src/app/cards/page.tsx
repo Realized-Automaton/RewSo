@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -101,13 +102,13 @@ const cardData: DigitalCard[] = [
 
 export default function CardsPage() {
   return (
-    <div className="space-y-8 p-4 md:p-8">
-      <h1 className="text-4xl md:text-5xl font-bold text-center text-primary">Digital Card Collection</h1>
-      <p className="text-center text-xl text-muted-foreground">
+    <div className="space-y-6 p-4 md:p-8">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-primary">Digital Card Collection</h1>
+      <p className="text-center text-lg sm:text-xl text-muted-foreground">
         Check out this totally awesome gallery of 80s-themed digital collectibles!
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {cardData.map((card) => (
           <Card key={card.id} className="neon-border flex flex-col overflow-hidden transform hover:scale-105 transition-transform duration-300">
             <CardHeader className="p-0">
@@ -119,19 +120,20 @@ export default function CardsPage() {
                   style={{ objectFit: 'cover' }}
                   className="rounded-t-md"
                   data-ai-hint={card.dataAiHint}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
-              <div className="p-4">
-                <CardTitle className="text-2xl text-primary">{card.name}</CardTitle>
-                <Badge variant={card.series === '80s Icons' ? "destructive" : "secondary"} className="mt-1">
+              <div className="p-3 sm:p-4">
+                <CardTitle className="text-xl sm:text-2xl text-primary">{card.name}</CardTitle>
+                <Badge variant={card.series === '80s Icons' ? "destructive" : "secondary"} className="mt-1 text-xs sm:text-sm">
                   {card.series}
                 </Badge>
               </div>
             </CardHeader>
-            <CardContent className="flex-grow p-4 space-y-2">
-              <CardDescription className="text-sm text-foreground">{card.description}</CardDescription>
+            <CardContent className="flex-grow p-3 sm:p-4 space-y-2">
+              <CardDescription className="text-xs sm:text-sm text-foreground">{card.description}</CardDescription>
               <div>
-                <h4 className="font-semibold text-sm text-muted-foreground">Stats:</h4>
+                <h4 className="font-semibold text-xs sm:text-sm text-muted-foreground">Stats:</h4>
                 <ul className="list-disc list-inside pl-2 text-xs text-foreground">
                   {card.stats.map((stat) => (
                     <li key={stat.label}>
@@ -141,7 +143,7 @@ export default function CardsPage() {
                 </ul>
               </div>
             </CardContent>
-            <CardFooter className="p-4">
+            <CardFooter className="p-3 sm:p-4">
               <p className="text-xs text-muted-foreground">Card ID: {card.id}</p>
             </CardFooter>
           </Card>
